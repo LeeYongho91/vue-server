@@ -1,0 +1,15 @@
+{
+    "env": "production",
+    "dbConfig": {
+        "host": "localhost",
+        "user": "root",
+        "port" : 3306,
+        "password": "1q2w3e!!",
+        "database": "vue-project",
+        "pool": {
+            "min": 0,
+            "max": 5
+        }
+    },
+    "secretKey": "secretKey"
+}
