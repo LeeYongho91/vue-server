@@ -5,7 +5,6 @@ import HttpException from '@exceptions/HttpException';
 import { User } from '@interfaces/users.interface';
 import { isEmpty } from '@utils/util';
 
-
 class UserService {
   public users = DB.Users;
 
@@ -41,7 +40,7 @@ class UserService {
     if (!findUser) throw new HttpException(409, "You're not user");
 
     const hashedPassword = await bcrypt.hash(userData.password, 10);
-    await this.users.update({ ...userData, password: hashedPassword }, { where: { id: userId } });
+    await this.users.update({ ...userData, password: hashedPassword }, { where: { seq: userId } });
 
     const updateUser: User = await this.users.findByPk(userId);
     return updateUser;
@@ -53,7 +52,7 @@ class UserService {
     const findUser: User = await this.users.findByPk(userId);
     if (!findUser) throw new HttpException(409, "You're not user");
 
-    await this.users.destroy({ where: { id: userId } });
+    await this.users.destroy({ where: { seq: userId } });
 
     return findUser;
   }

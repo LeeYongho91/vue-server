@@ -58,7 +58,7 @@ class App {
       this.app.use(morgan('dev', { stream }));
       this.app.use(cors({ origin: true, credentials: true }));
     }
-   
+
     this.app.use(hpp());
     this.app.use(helmet());
 

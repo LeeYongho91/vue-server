@@ -29,9 +29,9 @@ class AuthRoute implements Route {
     this.router.get(`${this.path}auth/kakao`, passport.authenticate('kakao'));
     this.router.get(`${this.path}auth/kakao/callback`, passport.authenticate('kakao', { failureRedirect: '/login' }), this.authController.kakaoLogin);
 
-     //네이버 로그인
-     this.router.get(`${this.path}auth/naver`, passport.authenticate('naver'));
-     this.router.get(`${this.path}auth/naver/callback`, passport.authenticate('naver', { failureRedirect: '/login' }), this.authController.naverLogin);
+    //네이버 로그인
+    this.router.get(`${this.path}auth/naver`, passport.authenticate('naver'));
+    this.router.get(`${this.path}auth/naver/callback`, passport.authenticate('naver', { failureRedirect: '/login' }), this.authController.naverLogin);
   }
 }
 

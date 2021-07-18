@@ -13,10 +13,10 @@ class AuthController {
   public redirectUrl = `http://localhost:${process.env.CLIENT_PORT}`;
 
   /**
-   * 
-   * @param req 
-   * @param res 
-   * @param next 
+   *
+   * @param req
+   * @param res
+   * @param next
    */
   public signUp = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -30,10 +30,10 @@ class AuthController {
   };
 
   /**
-   * 
-   * @param req 
-   * @param res 
-   * @param next 
+   *
+   * @param req
+   * @param res
+   * @param next
    */
   public logIn = (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -62,10 +62,10 @@ class AuthController {
   };
 
   /**
-   * 
-   * @param req 
-   * @param res 
-   * @param next 
+   *
+   * @param req
+   * @param res
+   * @param next
    */
   public logOut = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
@@ -80,10 +80,10 @@ class AuthController {
   };
 
   /**
-   * 
-   * @param req 
-   * @param res 
-   * @param next 
+   *
+   * @param req
+   * @param res
+   * @param next
    */
   public googleLogin = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -108,17 +108,17 @@ class AuthController {
   };
 
   /**
-   * 
-   * @param req 
-   * @param res 
-   * @param next 
+   *
+   * @param req
+   * @param res
+   * @param next
    */
   public kakaoLogin = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userJson = req.user['_json'];
       const email = userJson.kakao_account.email;
       const nickname = userJson.properties.nickname;
-   
+
       const createUser: CreateUserDto = { email, nickname, password: '' };
       const loginType: LOGINTYPE = LoginType.KAKAO;
 
@@ -136,20 +136,19 @@ class AuthController {
   };
 
   /**
-   * 
-   * @param req 
-   * @param res 
-   * @param next 
+   *
+   * @param req
+   * @param res
+   * @param next
    */
   public naverLogin = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userJson = req.user['_json'];
       const email = userJson.email;
       const nickname = userJson.nickname;
-      
-      if(!email || !nickname) 
-        res.redirect(`${this.redirectUrl}/oauth/error`)
-      
+
+      if (!email || !nickname) res.redirect(`${this.redirectUrl}/oauth/error`);
+
       const createUser: CreateUserDto = { email, nickname, password: '' };
       const loginType: LOGINTYPE = LoginType.NAVER;
 

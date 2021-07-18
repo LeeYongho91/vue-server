@@ -5,10 +5,8 @@ import HttpException from '@exceptions/HttpException';
 import { User } from '@interfaces/users.interface';
 import { isEmpty } from '@utils/util';
 import { uuid1 } from '@utils/uuid';
-import { LoginType, LOGINTYPE} from '@utils/login_type';
-import { createToken, createCookie} from '@utils/jwt'
-
-
+import { LoginType, LOGINTYPE } from '@utils/login_type';
+import { createToken, createCookie } from '@utils/jwt';
 
 class AuthService {
   public users = DB.Users;
@@ -54,7 +52,7 @@ class AuthService {
 
   public async SnsLogin(userData: CreateUserDto, loginType: LOGINTYPE): Promise<User> {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
-    
+
     const findUser: User = await this.users.findOne({ where: { login_type: loginType, email: userData.email } });
     if (!findUser) {
       const uuid: string = uuid1();
@@ -64,8 +62,6 @@ class AuthService {
       return findUser;
     }
   }
-
-
 }
 
 export default AuthService;

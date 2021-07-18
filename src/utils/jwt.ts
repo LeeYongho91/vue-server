@@ -3,15 +3,14 @@ import { User } from '@interfaces/users.interface';
 import { DataStoredInToken, TokenData } from '@interfaces/auth.interface';
 import config from 'config';
 
-
 export const createToken = (user: User): TokenData => {
-    const dataStoredInToken: DataStoredInToken = { seq: user.seq };
-    const secretKey: string = config.get('secretKey');
-    const expiresIn: number = 60 * 60 * 48;
+  const dataStoredInToken: DataStoredInToken = { seq: user.seq };
+  const secretKey: string = config.get('secretKey');
+  const expiresIn: number = 60 * 60 * 48;
 
-    return { expiresIn, token: jwt.sign(dataStoredInToken, secretKey, { expiresIn }) };
-  }
+  return { expiresIn, token: jwt.sign(dataStoredInToken, secretKey, { expiresIn }) };
+};
 
 export const createCookie = (tokenData: TokenData): string => {
-    return `Authorization=${tokenData.token}; HttpOnly; Max-Age=${tokenData.expiresIn};`;
-  }
+  return `Authorization=${tokenData.token}; HttpOnly; Max-Age=${tokenData.expiresIn};`;
+};
