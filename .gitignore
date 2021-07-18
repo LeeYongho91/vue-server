@@ -14,7 +14,5 @@ lerna-debug.log*
 .nuxt
 dist
 
-
-package-lock.json
 node_modules
 
