@@ -3,10 +3,6 @@ import UsersController from '@controllers/users.controller';
 import { CreateUserDto } from '@dtos/users.dto';
 import Route from '@interfaces/routes.interface';
 import validationMiddleware from '@middlewares/validation.middleware';
-import authMiddleware from '@middlewares/auth.middleware';
-import passport from 'passport';
-
-
 
 class UsersRoute implements Route {
   public path = '/users';
@@ -23,8 +19,6 @@ class UsersRoute implements Route {
     this.router.post(`${this.path}`, validationMiddleware(CreateUserDto, 'body'), this.usersController.createUser);
     this.router.put(`${this.path}/:id(\\d+)`, validationMiddleware(CreateUserDto, 'body', true), this.usersController.updateUser);
     this.router.delete(`${this.path}/:id(\\d+)`, this.usersController.deleteUser);
-    this.router.post(`${this.path}/test`, authMiddleware, this.usersController.test);
-
   }
 }
 
