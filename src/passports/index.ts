@@ -16,6 +16,7 @@ class Passport {
   public ExtractJwt = passportJwt.ExtractJwt;
   public JWTStrategy = passportJwt.Strategy;
   public secretKey: string = config.get('secretKey');
+  public callbackUrl = `http://localhost:${process.env.PORT}/auth/`;
 
   public passportConfig = () => {
     const passportConfig = { usernameField: 'email', passwordField: 'password' };
@@ -79,7 +80,7 @@ class Passport {
         {
           clientID: '897216138971-mb8bfh5eln29pbanm8kl6kvo544tndkc.apps.googleusercontent.com',
           clientSecret: 'qnCYEIfxfvxzyRP76_1GDcc5',
-          callbackURL: 'http://localhost:3000/auth/google/callback',
+          callbackURL: this.callbackUrl + 'google/callback',
         },
         function (accessToken, refreshToken, profile, done) {
           return done(null, profile);
@@ -93,7 +94,7 @@ class Passport {
         {
           clientID: 'b47ae472c4d7398134d2456904b96619',
           clientSecret: 'gPqEXOAeYtSa6F9ThNYiyVlKtwaErNQ1',
-          callbackURL: 'http://localhost:3000/auth/kakao/callback',
+          callbackURL: this.callbackUrl + 'kakao/callback',
         },
         function (accessToken, refreshToken, profile, done) {
           return done(null, profile);
@@ -107,7 +108,7 @@ class Passport {
         {
           clientID: 'levL_eG6gNo8OdTcODV5',
           clientSecret: 'S5sq1cA8Rf',
-          callbackURL: 'http://localhost:3000/auth/naver/callback',
+          callbackURL: this.callbackUrl + 'naver/callback',
         },
         function (accessToken, refreshToken, profile, done) {
           return done(null, profile);
