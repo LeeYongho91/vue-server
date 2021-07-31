@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import DB from '@databases/index';
-import { CreateUserDto } from '@dtos/users.dto';
+import { CreateUserDto, EmailDoubleCheckDto, nicknameDoubleCheckDto } from '@dtos/auth.dto';
 import HttpException from '@exceptions/HttpException';
 import { User } from '@interfaces/users.interface';
 import { isEmpty } from '@utils/util';
@@ -61,6 +61,32 @@ class AuthService {
     } else {
       return findUser;
     }
+  }
+
+  public async emailDoubleCheck(email: EmailDoubleCheckDto) {
+    if (isEmpty(email)) throw new HttpException(400, "You're not email");
+    const login_type: LOGINTYPE = LoginType.NORMAL;
+
+    const emailCount = await this.users.count({ where: { email: email, login_type: login_type } });
+
+    if (emailCount == 0) {
+      return true;
+    }
+
+    return false;
+  }
+
+  public async nicknameDoubleCheck(nickname: nicknameDoubleCheckDto) {
+    if (isEmpty(nickname)) throw new HttpException(400, "You're not nickname");
+    const login_type: LOGINTYPE = LoginType.NORMAL;
+
+    const nicknameCount = await this.users.count({ where: { nickname: nickname, login_type: login_type } });
+
+    if (nicknameCount == 0) {
+      return true;
+    }
+
+    return false;
   }
 }
 

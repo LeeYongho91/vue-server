@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import AuthController from '@controllers/auth.controller';
-import { LoginUserDto, CreateUserDto } from '@dtos/users.dto';
+import { LoginUserDto, CreateUserDto, EmailDoubleCheckDto, nicknameDoubleCheckDto } from '@dtos/auth.dto';
 import Route from '@interfaces/routes.interface';
 // import authMiddleware from '@middlewares/auth.middleware';
 import validationMiddleware from '@middlewares/validation.middleware';
@@ -16,6 +16,7 @@ class AuthRoute implements Route {
   }
 
   private initializeRoutes() {
+    // 회원가입
     this.router.post(`${this.path}signup`, validationMiddleware(CreateUserDto, 'body'), this.authController.signUp);
 
     // 일반 로그인
@@ -25,13 +26,19 @@ class AuthRoute implements Route {
     this.router.get(`${this.path}auth/google`, passport.authenticate('google', { scope: ['email', 'profile'] }));
     this.router.get(`${this.path}auth/google/callback`, passport.authenticate('google', { failureRedirect: '/login' }), this.authController.googleLogin);
 
-    //카카오 로그인
+    // 카카오 로그인
     this.router.get(`${this.path}auth/kakao`, passport.authenticate('kakao'));
     this.router.get(`${this.path}auth/kakao/callback`, passport.authenticate('kakao', { failureRedirect: '/login' }), this.authController.kakaoLogin);
 
-    //네이버 로그인
+    // 네이버 로그인
     this.router.get(`${this.path}auth/naver`, passport.authenticate('naver'));
     this.router.get(`${this.path}auth/naver/callback`, passport.authenticate('naver', { failureRedirect: '/login' }), this.authController.naverLogin);
+
+    // 이메일 중복확인
+    this.router.post(`${this.path}emailDoubleCheck`, validationMiddleware(EmailDoubleCheckDto, 'body'), this.authController.emailDoubleCheck);
+
+    // 닉네임 중복확인
+    this.router.post(`${this.path}nicknameDoubleCheck`, validationMiddleware(nicknameDoubleCheckDto, 'body'), this.authController.nicknameDoubleCheck);
   }
 }
 

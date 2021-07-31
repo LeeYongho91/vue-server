@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateUserDto } from '@dtos/users.dto';
+import { CreateUserDto } from '@dtos/auth.dto';
 import { User } from '@interfaces/users.interface';
 import { RequestWithUser } from '@interfaces/auth.interface';
 import AuthService from '@services/auth.service';
@@ -162,6 +162,42 @@ class AuthController {
       // Set cookie
       res.cookie('snsData', JSON.stringify(data), this.cookieOptions); // options is optional
       res.redirect(this.redirectUrl);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  /**
+   *
+   * @param req
+   * @param res
+   * @param next
+   */
+  public emailDoubleCheck = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+      const email = req.body.email;
+      const emailCount: Boolean = await this.authService.emailDoubleCheck(email);
+
+      if (emailCount) {
+        res.status(200).json({ result: 'SUCCESS' });
+      } else {
+        res.status(200).json({ result: 'FAIL' });
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public nicknameDoubleCheck = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+      const nickname = req.body.nickname;
+      const nicknameCount: Boolean = await this.authService.nicknameDoubleCheck(nickname);
+
+      if (nicknameCount) {
+        res.status(200).json({ result: 'SUCCESS' });
+      } else {
+        res.status(200).json({ result: 'FAIL' });
+      }
     } catch (error) {
       next(error);
     }

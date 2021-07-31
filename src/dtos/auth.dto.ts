@@ -18,3 +18,13 @@ export class LoginUserDto {
   @IsString()
   public password: string;
 }
+
+export class EmailDoubleCheckDto {
+  @IsEmail()
+  public email: string;
+}
+
+export class nicknameDoubleCheckDto {
+  @IsString()
+  public nickname: string;
+}
