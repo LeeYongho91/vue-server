@@ -53,7 +53,7 @@ class AuthController {
           }
           const token = createToken(user);
 
-          res.status(200).json({ user, token, message: 'login' });
+          res.status(200).json({ user: { uuid: user.uuid, nickname: user.nickname, email: user.email }, token, message: 'login' });
         });
       })(req, res);
     } catch (error) {
