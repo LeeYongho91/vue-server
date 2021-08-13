@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateUserDto } from '@dtos/auth.dto';
+import { CreateUserDto, accountUpdateDto, userWithdrawDto } from '@dtos/auth.dto';
 import { User } from '@interfaces/users.interface';
 import { RequestWithUser } from '@interfaces/auth.interface';
 import AuthService from '@services/auth.service';
@@ -37,7 +37,6 @@ class AuthController {
    */
   public logIn = (req: Request, res: Response, next: NextFunction) => {
     try {
-      console.log(req.body);
       // 아까 local로 등록한 인증과정 실행
       passport.authenticate('local', (passportError, user, info) => {
         // 인증이 실패했거나 유저 데이터가 없다면 에러 발생
@@ -198,6 +197,53 @@ class AuthController {
       } else {
         res.status(200).json({ result: 'FAIL' });
       }
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  /**
+   *
+   * @param req
+   * @param res
+   * @param next
+   */
+  public accountUpdate = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userData: accountUpdateDto = req.body;
+      const accountUpdate: boolean = await this.authService.accountUpdate(userData);
+      let result = '';
+
+      if (accountUpdate == true) {
+        result = 'SUCCESS';
+      } else {
+        result = 'FAIL';
+      }
+      res.status(201).json({ result, message: 'accountUpdate' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  /**
+   *
+   * @param req
+   * @param res
+   * @param next
+   */
+  public userWithdraw = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const uuid: userWithdrawDto = req.body;
+      const userWithdraw: boolean = await this.authService.userWithdraw(uuid);
+      let result = '';
+
+      if (userWithdraw == true) {
+        result = 'SUCCESS';
+      } else {
+        result = 'FAIL';
+      }
+
+      res.status(201).json({ result, message: 'userWithdraw' });
     } catch (error) {
       next(error);
     }

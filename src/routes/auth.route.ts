@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import AuthController from '@controllers/auth.controller';
-import { LoginUserDto, CreateUserDto, EmailDoubleCheckDto, nicknameDoubleCheckDto } from '@dtos/auth.dto';
+import { LoginUserDto, CreateUserDto, EmailDoubleCheckDto, nicknameDoubleCheckDto, accountUpdateDto, userWithdrawDto } from '@dtos/auth.dto';
 import Route from '@interfaces/routes.interface';
 // import authMiddleware from '@middlewares/auth.middleware';
 import validationMiddleware from '@middlewares/validation.middleware';
@@ -39,6 +39,12 @@ class AuthRoute implements Route {
 
     // 닉네임 중복확인
     this.router.post(`${this.path}nicknameDoubleCheck`, validationMiddleware(nicknameDoubleCheckDto, 'body'), this.authController.nicknameDoubleCheck);
+
+    // 회원정보 수정
+    this.router.post(`${this.path}accountUpdate`, validationMiddleware(accountUpdateDto, 'body'), this.authController.accountUpdate);
+
+    // 회원탈퇴
+    this.router.post(`${this.path}userWithdraw`, validationMiddleware(userWithdrawDto, 'body'), this.authController.userWithdraw);
   }
 }
 

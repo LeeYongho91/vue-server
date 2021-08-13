@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import DB from '@databases/index';
-import { CreateUserDto, EmailDoubleCheckDto, nicknameDoubleCheckDto } from '@dtos/auth.dto';
+import { CreateUserDto, EmailDoubleCheckDto, nicknameDoubleCheckDto, accountUpdateDto, userWithdrawDto } from '@dtos/auth.dto';
 import HttpException from '@exceptions/HttpException';
 import { User } from '@interfaces/users.interface';
 import { isEmpty } from '@utils/util';
@@ -11,6 +11,11 @@ import { createToken, createCookie } from '@utils/jwt';
 class AuthService {
   public users = DB.Users;
 
+  /**
+   *
+   * @param userData
+   * @returns
+   */
   public async signup(userData: CreateUserDto): Promise<User> {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
 
@@ -26,6 +31,11 @@ class AuthService {
     return createUserData;
   }
 
+  /**
+   *
+   * @param userData
+   * @returns
+   */
   public async login(userData: CreateUserDto): Promise<{ cookie: string; findUser: User }> {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
 
@@ -41,6 +51,11 @@ class AuthService {
     return { cookie, findUser };
   }
 
+  /**
+   *
+   * @param userData
+   * @returns
+   */
   public async logout(userData: User): Promise<User> {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
 
@@ -50,6 +65,12 @@ class AuthService {
     return findUser;
   }
 
+  /**
+   *
+   * @param userData
+   * @param loginType
+   * @returns
+   */
   public async SnsLogin(userData: CreateUserDto, loginType: LOGINTYPE): Promise<User> {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
 
@@ -63,8 +84,13 @@ class AuthService {
     }
   }
 
-  public async emailDoubleCheck(email: EmailDoubleCheckDto) {
-    if (isEmpty(email)) throw new HttpException(400, "You're not email");
+  /**
+   *
+   * @param email
+   * @returns
+   */
+  public async emailDoubleCheck(email: EmailDoubleCheckDto): Promise<boolean> {
+    if (isEmpty(email)) throw new HttpException(400, 'email is empty');
     const login_type: LOGINTYPE = LoginType.NORMAL;
 
     const emailCount = await this.users.count({ where: { email: email, login_type: login_type } });
@@ -76,13 +102,54 @@ class AuthService {
     return false;
   }
 
-  public async nicknameDoubleCheck(nickname: nicknameDoubleCheckDto) {
-    if (isEmpty(nickname)) throw new HttpException(400, "You're not nickname");
+  /**
+   *
+   * @param nickname
+   * @returns
+   */
+  public async nicknameDoubleCheck(nickname: nicknameDoubleCheckDto): Promise<boolean> {
+    if (isEmpty(nickname)) throw new HttpException(400, 'nickname is empty');
     const login_type: LOGINTYPE = LoginType.NORMAL;
 
     const nicknameCount = await this.users.count({ where: { nickname: nickname, login_type: login_type } });
 
     if (nicknameCount == 0) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   *
+   * @param userData
+   * @returns
+   */
+  public async accountUpdate(userData: accountUpdateDto): Promise<boolean> {
+    if (isEmpty(userData)) throw new HttpException(400, 'userData is empty');
+
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
+
+    const result = await this.users.update({ ...userData, password: hashedPassword }, { where: { uuid: userData.uuid } });
+
+    if (result[0] == 1) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   *
+   * @param uuid
+   * @returns
+   */
+  public async userWithdraw(uuid: userWithdrawDto): Promise<boolean> {
+    if (isEmpty(uuid)) throw new HttpException(400, 'uuid is empty');
+
+    const result = await this.users.destroy({ where: { ...uuid } });
+
+    if (result == 1) {
       return true;
     }
 
