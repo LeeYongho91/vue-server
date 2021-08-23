@@ -2,6 +2,8 @@ import config from 'config';
 import Sequelize from 'sequelize';
 import { dbConfig } from '@interfaces/db.interface';
 import UserModel from '@models/users.model';
+import ProductModel from '@models/product.model';
+
 import { logger } from '@utils/logger';
 
 const { host, user, password, database, pool }: dbConfig = config.get('dbConfig');
@@ -30,6 +32,7 @@ void sequelize.authenticate();
 
 const DB = {
   Users: UserModel(sequelize),
+  Products: ProductModel(sequelize),
   sequelize, // connection instance (RAW queries)
   Sequelize, // library
 };
