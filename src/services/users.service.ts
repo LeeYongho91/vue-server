@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import DB from '@databases/index';
 import { CreateUserDto } from '@dtos/auth.dto';
 import HttpException from '@exceptions/HttpException';
-import { User } from '@interfaces/users.interface';
+import { User } from '@/interfaces/user/users.interface';
 import { isEmpty } from '@utils/util';
 
 class UserService {

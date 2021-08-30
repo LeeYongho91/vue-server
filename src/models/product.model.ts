@@ -1,9 +1,9 @@
 import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
-import { Product } from '@interfaces/product.interface';
+import { Product } from '@/interfaces/shop/product.interface';
 
-export type UserCreationAttributes = Optional<Product, 'seq' | 'product_type' | 'name' | 'price' | 'img'>;
+export type ProductAttributes = Optional<Product, 'seq' | 'product_type' | 'name' | 'price' | 'img'>;
 
-export class ProductModel extends Model<Product, UserCreationAttributes> implements Product {
+export class ProductModel extends Model<Product, ProductAttributes> implements Product {
   public seq: number;
   public product_type: string;
   public name: string;

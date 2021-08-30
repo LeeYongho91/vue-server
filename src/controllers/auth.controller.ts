@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { CreateUserDto, accountUpdateDto, userWithdrawDto } from '@dtos/auth.dto';
-import { User } from '@interfaces/users.interface';
-import { RequestWithUser } from '@interfaces/auth.interface';
+import { User } from '@/interfaces/user/users.interface';
+import { RequestWithUser } from '@/interfaces/auth/auth.interface';
 import AuthService from '@services/auth.service';
 import passport from 'passport';
 import { createToken } from '@utils/jwt';

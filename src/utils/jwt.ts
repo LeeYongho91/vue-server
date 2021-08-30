@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import { User } from '@interfaces/users.interface';
-import { DataStoredInToken, TokenData } from '@interfaces/auth.interface';
+import { User } from '@/interfaces/user/users.interface';
+import { DataStoredInToken, TokenData } from '@/interfaces/auth/auth.interface';
 import config from 'config';
 
 export const createToken = (user: User): TokenData => {

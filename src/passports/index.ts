@@ -4,7 +4,7 @@ import passportJwt from 'passport-jwt';
 import GoogleOauth from 'passport-google-oauth20';
 import bcrypt from 'bcrypt';
 import DB from '@databases/index';
-import { User } from '@interfaces/users.interface';
+import { User } from '@/interfaces/user/users.interface';
 import config from 'config';
 const GoogleStrategy = GoogleOauth.Strategy;
 const KakaoStrategy = require('passport-kakao').Strategy;

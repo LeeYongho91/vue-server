@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import ShopController from '@controllers/shop.controller';
 
-import Route from '@interfaces/routes.interface';
+import Route from '@/interfaces/route/routes.interface';
 
 class ShopRoute implements Route {
   public path = '/shop';
@@ -13,7 +13,8 @@ class ShopRoute implements Route {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}/:type`, this.ShopController.getProducts);
+    this.router.get(`${this.path}/:params`, this.ShopController.getProducts);
+    this.router.post(`${this.path}/detail`, this.ShopController.getProductsById);
   }
 }
 

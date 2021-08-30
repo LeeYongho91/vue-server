@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import DB from '@databases/index';
 import { CreateUserDto, EmailDoubleCheckDto, nicknameDoubleCheckDto, accountUpdateDto, userWithdrawDto } from '@dtos/auth.dto';
 import HttpException from '@exceptions/HttpException';
-import { User } from '@interfaces/users.interface';
+import { User } from '@/interfaces/user/users.interface';
 import { isEmpty } from '@utils/util';
 import { uuid1 } from '@utils/uuid';
 import { LoginType, LOGINTYPE } from '@utils/login_type';

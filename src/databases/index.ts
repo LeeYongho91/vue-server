@@ -1,8 +1,14 @@
 import config from 'config';
 import Sequelize from 'sequelize';
-import { dbConfig } from '@interfaces/db.interface';
+import { dbConfig } from '@/interfaces/db/db.interface';
 import UserModel from '@models/users.model';
 import ProductModel from '@models/product.model';
+import ProductDetailModel from '@models/product_detail.model';
+import QaModel from '@models/qa.model';
+import QaAnswerModel from '@models/qa_answer.model';
+import ReviewModel from '@models/review.model';
+import test from '@models/test.model';
+import test2 from '@models/test2.model';
 
 import { logger } from '@utils/logger';
 
@@ -33,8 +39,16 @@ void sequelize.authenticate();
 const DB = {
   Users: UserModel(sequelize),
   Products: ProductModel(sequelize),
+  ProductDetail: ProductDetailModel(sequelize),
+  QaModel: QaModel(sequelize),
+  QaAnswerModel: QaAnswerModel(sequelize),
+  ReviewModel: ReviewModel(sequelize),
+
   sequelize, // connection instance (RAW queries)
   Sequelize, // library
 };
+
+test(sequelize).belongsTo(test2(sequelize), { foreignKey: 'test2_id', targetKey: 'product_id' });
+test2(sequelize).hasMany(test(sequelize));
 
 export default DB;

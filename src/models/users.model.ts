@@ -1,5 +1,5 @@
 import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
-import { User } from '@interfaces/users.interface';
+import { User } from '@/interfaces/user/users.interface';
 
 export type UserCreationAttributes = Optional<User, 'seq' | 'uuid' | 'email' | 'nickname' | 'password' | 'login_type'>;
 
