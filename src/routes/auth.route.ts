@@ -2,8 +2,8 @@ import { Router } from 'express';
 import AuthController from '@controllers/auth.controller';
 import { LoginUserDto, CreateUserDto, EmailDoubleCheckDto, nicknameDoubleCheckDto, accountUpdateDto, userWithdrawDto } from '@dtos/auth.dto';
 import Route from '@/interfaces/route/routes.interface';
-// import authMiddleware from '@middlewares/auth.middleware';
 import validationMiddleware from '@middlewares/validation.middleware';
+import authMiddleware from '@/middlewares/auth.middleware';
 import passport from 'passport';
 
 class AuthRoute implements Route {
@@ -45,6 +45,9 @@ class AuthRoute implements Route {
 
     // 회원탈퇴
     this.router.post(`${this.path}userWithdraw`, validationMiddleware(userWithdrawDto, 'body'), this.authController.userWithdraw);
+
+    // 회원 인증
+    this.router.get(`${this.path}auth`, authMiddleware, this.authController.auth);
   }
 }
 
