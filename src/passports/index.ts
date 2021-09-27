@@ -48,6 +48,7 @@ class Passport {
 
     const JWTVerify = async (jwtPayload, done) => {
       try {
+        console.log('test');
         console.log(jwtPayload);
         // payload의 id값으로 유저의 데이터 조회
         const user = await this.User.findOne({ where: { seq: jwtPayload.seq } });
