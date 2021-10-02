@@ -248,6 +248,18 @@ class AuthController {
       next(error);
     }
   };
+
+  public auth = (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = req.user;
+
+      if (user) {
+        res.status(201).json({ isAuth: true, isAdmin: true });
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default AuthController;
